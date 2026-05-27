@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>题目 #003 — 数列求和与恒成立问题</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif;
+  max-width:800px;margin:0 auto;padding:32px 24px;color:#1a1a1a;background:#fff;line-height:1.8;font-size:15px}
+
+.nav{font-size:12px;color:#9ca3af;margin-bottom:20px}
+.nav a{color:#2563eb;text-decoration:none}
+.nav a:hover{text-decoration:underline}
+
+.header{display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:14px;border-bottom:2px solid #1a1a1a;margin-bottom:24px}
+.problem-id{font-size:24px;font-weight:800;color:#2563eb}
+.header-right{display:flex;gap:12px;align-items:center;font-size:13px;color:#6b7280}
+.difficulty-badge{padding:2px 12px;border-radius:12px;font-weight:600;font-size:12px}
+.diff-1{background:#dcfce7;color:#166534}
+.diff-2{background:#fef3c7;color:#92400e}
+.diff-3{background:#fed7aa;color:#9a3412}
+.diff-4{background:#fecaca;color:#991b1b}
+
+.problem-image-section{margin-bottom:28px;text-align:center}
+.problem-image{max-width:100%;max-height:500px;border:1px solid #e5e7eb;border-radius:4px}
+
+.section{margin-bottom:36px}
+.section-title{font-size:17px;font-weight:700;padding:8px 0 8px 14px;margin-bottom:16px;background:#f9fafb}
+.st-0{border-left:4px solid #d97706}
+.st-1{border-left:4px solid #2563eb}
+.st-2{border-left:4px solid #7c3aed}
+.st-3{border-left:4px solid #0891b2}
+.st-4{border-left:4px solid #dc2626}
+.st-5{border-left:4px solid #ea580c}
+.st-6{border-left:4px solid #16a34a}
+
+.thought-flow{position:relative}
+.thought-step{position:relative;padding:10px 0 10px 28px;margin-bottom:4px;
+  border-left:2px solid #e5e7eb;margin-left:6px}
+.thought-step:last-child{border-left-color:transparent}
+.thought-step::before{content:'';position:absolute;left:-7px;top:15px;
+  width:12px;height:12px;border-radius:50%;border:2px solid #d97706;background:#fff}
+.thought-step.ts-insight::before{background:#d97706}
+.thought-label{font-size:13px;font-weight:700;margin-bottom:4px}
+.thought-text{font-size:14px;color:#374151;line-height:1.8}
+
+.method{margin-bottom:20px;padding:14px 16px;border:1px solid #e5e7eb;border-radius:6px}
+.method-title{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:10px}
+.method-tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:4px;
+  background:#eff6ff;color:#2563eb;margin-left:8px;font-weight:400}
+.step{margin-bottom:6px;padding-left:4px}
+
+.knowledge-item{padding:8px 12px;margin-bottom:6px;border-left:3px solid #e5e7eb;
+  margin-left:8px;font-size:14px;background:#fafafa;border-radius:0 4px 4px 0}
+.knowledge-item .module-tag{display:inline-block;font-size:11px;padding:1px 8px;
+  border-radius:10px;background:#f3f4f6;color:#6b7280;margin-right:6px}
+.knowledge-item .arrow{color:#9ca3af;margin:0 4px}
+
+.thinking-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+.thinking-step{flex:1;color:#374151}
+.thinking-method{flex-shrink:0;padding:2px 10px;border-radius:10px;font-size:12px;
+  font-weight:600;background:#f0f4ff;color:#2563eb;white-space:nowrap;align-self:flex-start}
+.thinking-why{font-size:12px;color:#6b7280;margin-top:2px}
+
+.pitfall{margin-bottom:14px;padding:12px 16px;border-radius:6px;border:1px solid #fecaca;background:#fef2f2}
+.pitfall-wrong{color:#dc2626;font-size:14px;margin-bottom:4px}
+.pitfall-wrong::before{content:'❌ '}
+.pitfall-right{color:#16a34a;font-size:14px;margin-bottom:4px}
+.pitfall-right::before{content:'✅ '}
+.pitfall-why{font-size:13px;color:#6b7280;padding-left:20px}
+
+.variation{margin-bottom:12px;padding:12px 16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.variation-title{font-weight:600;font-size:14px;margin-bottom:4px;color:#ea580c}
+.variation-desc{font-size:13px;color:#374151}
+
+.difficulty-box{padding:16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.diff-row{display:flex;gap:24px;margin-bottom:6px;font-size:14px}
+.diff-label{color:#6b7280;min-width:80px}
+.diff-value{font-weight:600}
+
+.print-btn{position:fixed;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
+  border:1px solid #e5e7eb;background:#fff;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.print-btn:hover{background:#f3f4f6}
+
+@media print{
+  body{padding:16px;font-size:11pt}
+  .section{page-break-inside:avoid}
+  .print-btn,.nav{display:none}
+  .problem-image{max-height:300px}
+  .header{border-bottom-width:1px}
+}
+</style>
+</head>
+<body>
+<button class="print-btn no-print" onclick="window.print()" title="打印">&#128424;</button>
+<div class="nav"><a href="index.html">&larr; 返回索引</a></div>
+
+<div class="header">
+  <span class="problem-id"># 003</span>
+  <div class="header-right">
+    <span>2026-05-27</span>
+    <span>来源：作业</span>
+    <span class="difficulty-badge diff-2">中档</span>
+  </div>
+</div>
+
+<div class="problem-image-section">
+  <img src="images/problem_003.jpg" alt="题目" class="problem-image">
+</div>
+
+<!-- ========== 一、解题思路 ========== -->
+<div class="section" id="思路">
+  <h2 class="section-title st-0">一、解题思路</h2>
+  <div class="thought-flow">
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#2563eb">审题 — 抓住结构</div>
+      <div class="thought-text">
+        $S_n = -\dfrac{n^2}{2} + kn$，这是关于 $n$ 的二次函数，开口向下（$-\frac{1}{2} < 0$）。条件"$S_n$ 的最大值为 $8$"加上 $k \in \mathbb{N}^*$，直接用二次函数的顶点公式应该能搞定 $k$。
+      </div>
+    </div>
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#f59e0b">推进 — 第一问很顺</div>
+      <div class="thought-text">
+        对称轴 $n = k$，$k$ 是正整数所以最大值就在 $n = k$ 处取到：$S_k = \frac{k^2}{2} = 8$，解出 $k = 4$。然后用 $a_n = S_n - S_{n-1}$ 得到通项，别忘了验证 $n = 1$ 也适用。
+      </div>
+    </div>
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#f59e0b">第二问 — 裂项的想法</div>
+      <div class="thought-text">
+        $b_n = \frac{1}{a_n \cdot a_{n+1}}$，$a_n$ 是等差数列，分母是相邻两项之积，这是经典的裂项求和结构。但这里 $a_n$ 有正有负（$a_4 = \frac{1}{2} > 0$，$a_5 = -\frac{1}{2} < 0$），裂项后求和要小心 $T_n$ 不单调。
+      </div>
+    </div>
+
+    <div class="thought-step ts-insight">
+      <div class="thought-label" style="color:#10b981">关键洞察 — 恒成立转最值</div>
+      <div class="thought-text">
+        "$T_n > m$ 恒成立"等价于 $m < \min\{T_n\}$。裂项化简后得到 $T_n = \frac{2}{7 - 2n} - \frac{2}{7}$，逐项算发现 $T_n$ 先增后骤降（$T_3 = \frac{12}{7}$，$T_4 = -\frac{16}{7}$），然后从 $n \geq 4$ 开始缓慢回升趋向 $-\frac{2}{7}$。最小值在 $n = 4$ 处取到，答案就出来了。
+      </div>
+    </div>
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#6b7280">收尾 — 严格不等号</div>
+      <div class="thought-text">
+        因为 $T_4 = -\frac{16}{7}$ 是确切的最小值且原题是严格不等号"$>$"，所以 $m < -\frac{16}{7}$。如果是"$\geq$"就要写 $m \leq -\frac{16}{7}$。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ========== 二、解题过程 ========== -->
+<div class="section" id="解法">
+  <h2 class="section-title st-1">二、解题过程</h2>
+
+  <div class="method">
+    <div class="method-title">解法一 <span class="method-tag">通法 · 二次函数 + 裂项求和</span></div>
+
+    <div class="step"><strong>第一问：求 $k$ 和 $a_n$</strong></div>
+
+    <div class="step">$S_n = -\dfrac{n^2}{2} + kn$ 是关于 $n$ 的开口向下的二次函数。</div>
+
+    <div class="step">配方：$S_n = -\dfrac{1}{2}(n - k)^2 + \dfrac{k^2}{2}$</div>
+
+    <div class="step">对称轴 $n = k$。因为 $k \in \mathbb{N}^*$，最大值在 $n = k$ 处取到：</div>
+
+    <div class="step">$$S_k = \frac{k^2}{2} = 8 \implies k^2 = 16 \implies k = 4$$</div>
+
+    <div class="step">故 $S_n = -\dfrac{n^2}{2} + 4n$。</div>
+
+    <div class="step">当 $n \geq 2$ 时：</div>
+    <div class="step">
+      $$a_n = S_n - S_{n-1} = \left(-\frac{n^2}{2} + 4n\right) - \left(-\frac{(n-1)^2}{2} + 4(n-1)\right)$$
+    </div>
+    <div class="step">
+      $$= \frac{-(n^2) + (n-1)^2}{2} + 4 = \frac{-2n + 1}{2} + 4 = \frac{9 - 2n}{2}$$
+    </div>
+
+    <div class="step">验证 $n = 1$：$a_1 = S_1 = -\dfrac{1}{2} + 4 = \dfrac{7}{2}$，而 $\dfrac{9 - 2}{2} = \dfrac{7}{2}$。一致。</div>
+
+    <div class="step">$$\boxed{k = 4,\quad a_n = \frac{9 - 2n}{2}}$$</div>
+
+    <div class="step" style="margin-top:16px"><strong>第二问：求 $m$ 的范围</strong></div>
+
+    <div class="step">$a_n = \dfrac{9 - 2n}{2}$ 是公差 $d = -1$ 的等差数列。</div>
+
+    <div class="step">
+      $$b_n = \frac{1}{a_n \cdot a_{n+1}} = \frac{1}{\frac{9-2n}{2} \cdot \frac{7-2n}{2}} = \frac{4}{(9-2n)(7-2n)}$$
+    </div>
+
+    <div class="step">裂项：注意 $(9-2n) - (7-2n) = 2$，故</div>
+    <div class="step">
+      $$b_n = \frac{4}{(9-2n)(7-2n)} = 2\left(\frac{1}{7-2n} - \frac{1}{9-2n}\right)$$
+    </div>
+
+    <div class="step">求和（裂项消去）：</div>
+    <div class="step">
+      $$T_n = \sum_{k=1}^{n} b_k = 2\sum_{k=1}^{n}\left(\frac{1}{7-2k} - \frac{1}{9-2k}\right)$$
+    </div>
+
+    <div class="step">注意 $\dfrac{1}{9-2k} = \dfrac{1}{7-2(k-1)}$，设 $f(k) = \dfrac{1}{7-2k}$，则：</div>
+    <div class="step">
+      $$T_n = 2\sum_{k=1}^{n}\big(f(k) - f(k-1)\big) = 2\big(f(n) - f(0)\big) = 2\left(\frac{1}{7-2n} - \frac{1}{7}\right)$$
+    </div>
+
+    <div class="step">$$\boxed{T_n = \frac{2}{7-2n} - \frac{2}{7}}$$</div>
+
+    <div class="step" style="margin-top:12px">分析 $T_n$ 的最小值：</div>
+    <div class="step">
+      <table style="border-collapse:collapse;font-size:13px;margin:8px 0">
+        <tr style="border-bottom:1px solid #e5e7eb">
+          <td style="padding:4px 12px;color:#6b7280">$n$</td>
+          <td style="padding:4px 12px">1</td><td style="padding:4px 12px">2</td>
+          <td style="padding:4px 12px">3</td><td style="padding:4px 12px;color:#dc2626;font-weight:700">4</td>
+          <td style="padding:4px 12px">5</td><td style="padding:4px 12px">6</td>
+          <td style="padding:4px 12px">$\to \infty$</td>
+        </tr>
+        <tr>
+          <td style="padding:4px 12px;color:#6b7280">$T_n$</td>
+          <td style="padding:4px 12px">$\frac{4}{35}$</td><td style="padding:4px 12px">$\frac{8}{21}$</td>
+          <td style="padding:4px 12px">$\frac{12}{7}$</td>
+          <td style="padding:4px 12px;color:#dc2626;font-weight:700">$-\frac{16}{7}$</td>
+          <td style="padding:4px 12px">$-\frac{20}{21}$</td><td style="padding:4px 12px">$-\frac{24}{35}$</td>
+          <td style="padding:4px 12px">$\to -\frac{2}{7}$</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="step">$T_n$ 在 $n = 4$ 处取到最小值 $T_4 = -\dfrac{16}{7}$。</div>
+
+    <div class="step">$T_n > m$ 对所有 $n \in \mathbb{N}^*$ 恒成立 $\iff$ $m < \min\{T_n\} = -\dfrac{16}{7}$。</div>
+
+    <div class="step">$$\boxed{m < -\frac{16}{7}}$$</div>
+  </div>
+
+  <div class="method">
+    <div class="method-title">解法二 <span class="method-tag">直接逐项验证单调性</span></div>
+
+    <div class="step">$T_n = \dfrac{2}{7-2n} - \dfrac{2}{7}$，设 $g(n) = \dfrac{2}{7-2n}$。</div>
+
+    <div class="step">对 $n \leq 3$：$7 - 2n > 0$，$g(n) > 0$ 且递增，$T_n$ 递增（$T_1 < T_2 < T_3$）。</div>
+
+    <div class="step">$n = 4$：$g(4) = \dfrac{2}{-1} = -2$，$T_4 = -2 - \dfrac{2}{7} = -\dfrac{16}{7}$，骤降至负值。</div>
+
+    <div class="step">对 $n \geq 5$：$7 - 2n \leq -3$，$g(n) = \dfrac{2}{7-2n} \in (-\frac{2}{3}, 0)$ 且 $|g(n)|$ 递减，所以 $g(n)$ 递增（趋向 $0$），$T_n$ 递增。</div>
+
+    <div class="step">综合：$T_n$ 在 $n = 4$ 取到唯一最小值 $-\dfrac{16}{7}$，结论同上。</div>
+  </div>
+</div>
+
+<!-- ========== 三、知识点拆解 ========== -->
+<div class="section" id="知识点">
+  <h2 class="section-title st-2">三、知识点拆解</h2>
+
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 等差数列 <span class="arrow">&gt;</span> $S_n$ 的二次函数性质（$S_n = An^2 + Bn$ 型）
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 通项公式 <span class="arrow">&gt;</span> $a_n = S_n - S_{n-1}$（$n \geq 2$）及与 $a_1 = S_1$ 的统一验证
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 求和技巧 <span class="arrow">&gt;</span> 裂项求和（等差数列相邻项之积的倒数）
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">函数</span>
+    函数 <span class="arrow">&gt;</span> 二次函数 <span class="arrow">&gt;</span> 开口方向、对称轴与最值（整数约束下）
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">不等式</span>
+    不等式 <span class="arrow">&gt;</span> 恒成立问题 <span class="arrow">&gt;</span> "$f(n) > m$ 恒成立"转化为 $m < \min f(n)$
+  </div>
+</div>
+
+<!-- ========== 四、思维方式 ========== -->
+<div class="section" id="思维">
+  <h2 class="section-title st-3">四、思维方式</h2>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$S_n$ 配方求最大值】</div>
+      <div class="thinking-why">把 $S_n$ 视为 $n$ 的二次函数，利用配方找对称轴和顶点值</div>
+    </div>
+    <span class="thinking-method">函数与方程</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$a_n \cdot a_{n+1}$ 分母裂项】</div>
+      <div class="thinking-why">利用等差数列公差将乘积差拆为两个分式之差，实现消去</div>
+    </div>
+    <span class="thinking-method">化归转化</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$T_n$ 在 $n=3$ 和 $n=4$ 之间符号突变】</div>
+      <div class="thinking-why">$a_4 > 0$ 但 $a_5 < 0$，导致 $b_4 < 0$，$T_n$ 在此处骤降而非单调</div>
+    </div>
+    <span class="thinking-method">分类讨论</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【恒成立 $\to$ 求 $T_n$ 最小值】</div>
+      <div class="thinking-why">"$T_n > m$ 对所有 $n$ 成立"等价于 $m$ 小于 $T_n$ 的最小值</div>
+    </div>
+    <span class="thinking-method">逆向思维</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【列表观察 $T_n$ 的趋势，确认最小值位置】</div>
+      <div class="thinking-why">$T_n$ 非单调，通过列表/计算确定全局最小值</div>
+    </div>
+    <span class="thinking-method">特殊值法</span>
+  </div>
+</div>
+
+<!-- ========== 五、易错点与陷阱 ========== -->
+<div class="section" id="易错">
+  <h2 class="section-title st-4">五、易错点与陷阱</h2>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">$k \in \mathbb{R}$，直接令对称轴 $n = k$ 可能非整数，还需讨论 $n = \lfloor k \rfloor$ 和 $n = \lceil k \rceil$</div>
+    <div class="pitfall-right">本题 $k \in \mathbb{N}^*$，对称轴恰在整数处，最大值直接在 $n = k$ 取到，无需分类</div>
+    <div class="pitfall-why">若 $k$ 不是正整数，$S_n$ 最大值要比较对称轴两侧的整数点。本题条件 $k \in \mathbb{N}^*$ 简化了这一步。</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">认为 $T_n$ 单调递增（因为裂项后是"telescoping"），直接取 $T_1$ 为最小值</div>
+    <div class="pitfall-right">$a_n$ 有正有负，$b_n$ 也有正有负，$T_n$ 不单调，需逐段分析</div>
+    <div class="pitfall-why">$a_4 = \frac{1}{2} > 0$，$a_5 = -\frac{1}{2} < 0$，所以 $b_4 = \frac{1}{a_4 a_5} = -4 < 0$，$T_n$ 在 $n = 4$ 处骤降。</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">恒成立问题中混淆 $\leq$ 和 $<$：写成 $m \leq -\frac{16}{7}$</div>
+    <div class="pitfall-right">原题 $T_n > m$（严格不等号），最小值 $T_4 = -\frac{16}{7}$ 可取到，故 $m < -\frac{16}{7}$</div>
+    <div class="pitfall-why">严格 vs. 非严格不等号直接影响端点能否取到。若原题是 $T_n \geq m$ 则为 $m \leq -\frac{16}{7}$。</div>
+  </div>
+</div>
+
+<!-- ========== 六、变式题方向 ========== -->
+<div class="section" id="变式">
+  <h2 class="section-title st-5">六、变式题方向</h2>
+
+  <div class="variation">
+    <div class="variation-title">变式一：$k \in \mathbb{R}^+$，$S_n$ 最大值为 $8$</div>
+    <div class="variation-desc">若 $k$ 不限于正整数（如 $k = 4.5$），对称轴不在整数点，需比较 $S_4$ 和 $S_5$ 中较大者为最大值。核心区别：离散最值 vs. 连续最值。</div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式二：将 $b_n = \frac{1}{a_n \cdot a_{n+1}}$ 改为 $b_n = \frac{1}{a_n \cdot a_{n+2}}$</div>
+    <div class="variation-desc">相隔两项的乘积，裂项时公差变为 $2d = -2$，分解系数不同。核心区别：裂项中分母差的处理。</div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式三：将 $T_n > m$ 改为 $T_n < m$，求 $m$ 范围</div>
+    <div class="variation-desc">变为求 $T_n$ 的最大值。$T_3 = \frac{12}{7}$ 是最大值，答案变为 $m > \frac{12}{7}$。核心区别：恒成立方向翻转，最值从 min 变为 max。</div>
+  </div>
+</div>
+
+<!-- ========== 七、难度定位 ========== -->
+<div class="section" id="难度">
+  <h2 class="section-title st-6">七、难度定位</h2>
+  <div class="difficulty-box">
+    <div class="diff-row"><span class="diff-label">难度等级</span><span class="diff-value">中档</span></div>
+    <div class="diff-row"><span class="diff-label">考试定位</span><span class="diff-value">高考解答题第17-18题水平</span></div>
+    <div class="diff-row"><span class="diff-label">建议用时</span><span class="diff-value">12-15分钟</span></div>
+    <div class="diff-row"><span class="diff-label">适合阶段</span><span class="diff-value">数列综合训练，裂项求和 + 恒成立问题的衔接练习</span></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false},
+      {left:'\\(',right:'\\)',display:false},
+      {left:'\\[',right:'\\]',display:true}
+    ],
+    throwOnError:false
+  });
+});
+</script>
+</body>
+</html>

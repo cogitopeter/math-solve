@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>题目 #002 — 数列通项与分组求和</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif;
+  max-width:800px;margin:0 auto;padding:32px 24px;color:#1a1a1a;background:#fff;line-height:1.8;font-size:15px}
+.nav{font-size:12px;color:#9ca3af;margin-bottom:20px}
+.nav a{color:#2563eb;text-decoration:none}
+.nav a:hover{text-decoration:underline}
+.header{display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:14px;border-bottom:2px solid #1a1a1a;margin-bottom:24px}
+.problem-id{font-size:24px;font-weight:800;color:#2563eb}
+.header-right{display:flex;gap:12px;align-items:center;font-size:13px;color:#6b7280}
+.difficulty-badge{padding:2px 12px;border-radius:12px;font-weight:600;font-size:12px}
+.diff-1{background:#dcfce7;color:#166534}
+.diff-2{background:#fef3c7;color:#92400e}
+.diff-3{background:#fed7aa;color:#9a3412}
+.diff-4{background:#fecaca;color:#991b1b}
+.problem-image-section{margin-bottom:28px;text-align:center}
+.problem-image{max-width:100%;max-height:500px;border:1px solid #e5e7eb;border-radius:4px}
+.section{margin-bottom:36px}
+.section-title{font-size:17px;font-weight:700;padding:8px 0 8px 14px;margin-bottom:16px;background:#f9fafb}
+.st-0{border-left:4px solid #d97706}
+.st-1{border-left:4px solid #2563eb}
+.st-2{border-left:4px solid #7c3aed}
+.st-3{border-left:4px solid #0891b2}
+.st-4{border-left:4px solid #dc2626}
+.st-5{border-left:4px solid #ea580c}
+.st-6{border-left:4px solid #16a34a}
+.thought-flow{position:relative}
+.thought-step{position:relative;padding:10px 0 10px 28px;margin-bottom:4px;
+  border-left:2px solid #e5e7eb;margin-left:6px}
+.thought-step:last-child{border-left-color:transparent}
+.thought-step::before{content:'';position:absolute;left:-7px;top:15px;
+  width:12px;height:12px;border-radius:50%;border:2px solid #d97706;background:#fff}
+.thought-step.ts-insight::before{background:#d97706}
+.thought-label{font-size:13px;font-weight:700;margin-bottom:4px}
+.thought-text{font-size:14px;color:#374151;line-height:1.8}
+.method{margin-bottom:20px;padding:14px 16px;border:1px solid #e5e7eb;border-radius:6px}
+.method-title{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:10px}
+.method-tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:4px;
+  background:#eff6ff;color:#2563eb;margin-left:8px;font-weight:400}
+.step{margin-bottom:8px;padding-left:4px}
+.step-label{font-weight:600;color:#374151}
+.sub-title{font-size:14px;font-weight:600;color:#374151;margin:16px 0 8px;padding-left:4px}
+.knowledge-item{padding:8px 12px;margin-bottom:6px;border-left:3px solid #e5e7eb;
+  margin-left:8px;font-size:14px;background:#fafafa;border-radius:0 4px 4px 0}
+.knowledge-item .module-tag{display:inline-block;font-size:11px;padding:1px 8px;
+  border-radius:10px;background:#f3f4f6;color:#6b7280;margin-right:6px}
+.knowledge-item .arrow{color:#9ca3af;margin:0 4px}
+.thinking-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+.thinking-step{flex:1;color:#374151}
+.thinking-method{flex-shrink:0;padding:2px 10px;border-radius:10px;font-size:12px;
+  font-weight:600;background:#f0f4ff;color:#2563eb;white-space:nowrap;align-self:flex-start}
+.thinking-why{font-size:12px;color:#6b7280;margin-top:2px}
+.pitfall{margin-bottom:14px;padding:12px 16px;border-radius:6px;border:1px solid #fecaca;background:#fef2f2}
+.pitfall-wrong{color:#dc2626;font-size:14px;margin-bottom:4px}
+.pitfall-wrong::before{content:'&#10060; '}
+.pitfall-right{color:#16a34a;font-size:14px;margin-bottom:4px}
+.pitfall-right::before{content:'&#9989; '}
+.pitfall-why{font-size:13px;color:#6b7280;padding-left:20px}
+.variation{margin-bottom:12px;padding:12px 16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.variation-title{font-weight:600;font-size:14px;margin-bottom:4px;color:#ea580c}
+.variation-desc{font-size:13px;color:#374151}
+.difficulty-box{padding:16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.diff-row{display:flex;gap:24px;margin-bottom:6px;font-size:14px}
+.diff-label{color:#6b7280;min-width:80px}
+.diff-value{font-weight:600}
+.print-btn{position:fixed;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
+  border:1px solid #e5e7eb;background:#fff;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.print-btn:hover{background:#f3f4f6}
+@media print{
+  body{padding:16px;font-size:11pt}
+  .section{page-break-inside:avoid}
+  .print-btn,.nav{display:none}
+  .problem-image{max-height:300px}
+  .header{border-bottom-width:1px}
+}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()" title="打印">&#128424;</button>
+<div class="nav"><a href="index.html">&larr; 返回索引</a></div>
+
+<div class="header">
+  <span class="problem-id"># 002</span>
+  <div class="header-right">
+    <span>2026-05-27</span>
+    <span>来源：作业</span>
+    <span class="difficulty-badge diff-2">中档</span>
+  </div>
+</div>
+
+<div class="problem-image-section">
+  <img src="images/problem_002.jpg" alt="题目" class="problem-image" onerror="this.parentElement.style.display='none'">
+</div>
+
+<!-- ==================== 一、解题思路 ==================== -->
+<div class="section" id="思路">
+  <h2 class="section-title st-0">一、解题思路</h2>
+  <div class="thought-flow">
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#2563eb">审题 — 识别题型</div>
+      <div class="thought-text">
+        看到 $4S_n = (a_n + 1)^2$，这是典型的"$S_n$ 与 $a_n$ 关系"题型。条件里没有直接给出 $a_n$ 的递推式，但 $S_n$ 和 $a_n$ 绑在一起。第一反应：用 $a_n = S_n - S_{n-1}$（$n \geqslant 2$）把 $S_n$ 消掉，把问题转化为纯粹的 $a_n$ 递推关系。
+      </div>
+    </div>
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#f59e0b">推进 — 相邻两式作差</div>
+      <div class="thought-text">
+        写出 $n$ 和 $n-1$ 的等式：$4S_n = (a_n+1)^2$，$4S_{n-1} = (a_{n-1}+1)^2$。相减得 $4a_n = (a_n+1)^2 - (a_{n-1}+1)^2$。移项整理后发现 $(a_n - 1)^2 = (a_{n-1}+1)^2$。到这里要开方了——但平方等于平方，开方之后有正负两种情况，不能漏掉。
+      </div>
+    </div>
+
+    <div class="thought-step ts-insight">
+      <div class="thought-label" style="color:#10b981">关键洞察 — 用"各项为正"排除一个分支</div>
+      <div class="thought-text">
+        开方得 $a_n - 1 = \pm(a_{n-1} + 1)$。取负号则 $a_n = -a_{n-1}$，但题目说"各项均为正数"，相邻两项不可能异号，所以负号分支不可能。只剩 $a_n - 1 = a_{n-1} + 1$，即 $a_n = a_{n-1} + 2$。<strong>这就是公差为 2 的等差数列！</strong>但别忘了：$n=1$ 要单独验证。
+      </div>
+    </div>
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#2563eb">第(2)问 — 分组求和的直觉</div>
+      <div class="thought-text">
+        得到 $a_n = 2n-1$ 后，$b_n = (2n-1) + 2^{2n-1}$。一个多项式、一个指数，两类完全不同的项。自然想到<strong>分组求和</strong>：多项式部分 $\sum(2k-1) = n^2$（前 $n$ 个奇数之和是完全平方），指数部分 $2^1 + 2^3 + \cdots + 2^{2n-1}$ 是公比为 $4$ 的等比数列。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== 二、解题过程 ==================== -->
+<div class="section" id="解法">
+  <h2 class="section-title st-1">二、解题过程</h2>
+
+  <div class="method">
+    <div class="method-title">解法一：作差递推法 <span class="method-tag">通法</span></div>
+
+    <div class="sub-title">第 (1) 问：求通项公式</div>
+
+    <div class="step">
+      <span class="step-label">1.</span> 当 $n \geqslant 2$ 时，由 $4S_n = (a_n + 1)^2$ 和 $4S_{n-1} = (a_{n-1} + 1)^2$ 相减：
+      $$4a_n = (a_n + 1)^2 - (a_{n-1} + 1)^2$$
+    </div>
+    <div class="step">
+      <span class="step-label">2.</span> 展开左边：$(a_n + 1)^2 = a_n^2 + 2a_n + 1$，代入：
+      $$4a_n = a_n^2 + 2a_n + 1 - (a_{n-1} + 1)^2$$
+      移项得
+      $$a_n^2 - 2a_n + 1 = (a_{n-1} + 1)^2 \implies (a_n - 1)^2 = (a_{n-1} + 1)^2$$
+    </div>
+    <div class="step">
+      <span class="step-label">3.</span> 开平方：$a_n - 1 = \pm(a_{n-1} + 1)$。
+      <br>若取负号：$a_n = -a_{n-1}$，但各项为正，矛盾。
+      <br>故 $a_n - 1 = a_{n-1} + 1$，即 $a_n = a_{n-1} + 2$（$n \geqslant 2$）。
+    </div>
+    <div class="step">
+      <span class="step-label">4.</span> 当 $n = 1$：$4a_1 = (a_1 + 1)^2$，展开得 $a_1^2 - 2a_1 + 1 = 0$，即 $(a_1 - 1)^2 = 0$，解得 $a_1 = 1$。
+    </div>
+    <div class="step">
+      <span class="step-label">5.</span> 因此 $\{a_n\}$ 是首项为 $1$、公差为 $2$ 的等差数列：
+      $$\boxed{a_n = 2n - 1}$$
+    </div>
+
+    <div class="sub-title">第 (2) 问：求 $T_n$</div>
+
+    <div class="step">
+      <span class="step-label">6.</span> $b_n = a_n + 2^{a_n} = (2n - 1) + 2^{2n-1}$，分组求和：
+      $$T_n = \sum_{k=1}^{n} (2k-1) + \sum_{k=1}^{n} 2^{2k-1}$$
+    </div>
+    <div class="step">
+      <span class="step-label">7.</span> 第一部分：$\displaystyle\sum_{k=1}^{n} (2k-1) = 1 + 3 + 5 + \cdots + (2n-1) = n^2$。
+    </div>
+    <div class="step">
+      <span class="step-label">8.</span> 第二部分：$2^1 + 2^3 + 2^5 + \cdots + 2^{2n-1}$ 是首项 $a_1 = 2$、公比 $q = \dfrac{2^3}{2^1} = 4$、共 $n$ 项的等比数列：
+      $$\sum_{k=1}^{n} 2^{2k-1} = \frac{2(4^n - 1)}{4 - 1} = \frac{2(4^n - 1)}{3}$$
+    </div>
+    <div class="step">
+      <span class="step-label">9.</span> 因此
+      $$\boxed{T_n = n^2 + \frac{2(4^n - 1)}{3}}$$
+    </div>
+  </div>
+
+  <div class="method">
+    <div class="method-title">解法二：归纳验证法 <span class="method-tag">辅助验证</span></div>
+
+    <div class="step">
+      <span class="step-label">1.</span> 逐项计算：$n=1$：$4a_1 = (a_1+1)^2 \Rightarrow a_1 = 1$。
+    </div>
+    <div class="step">
+      <span class="step-label">2.</span> $n=2$：$4(1+a_2) = (a_2+1)^2$，展开得 $a_2^2 - 2a_2 - 3 = 0$，即 $(a_2-3)(a_2+1) = 0$，取正值 $a_2 = 3$。
+    </div>
+    <div class="step">
+      <span class="step-label">3.</span> $n=3$：$4(1+3+a_3) = (a_3+1)^2$，展开得 $a_3^2 - 2a_3 - 15 = 0$，即 $(a_3-5)(a_3+3) = 0$，取正值 $a_3 = 5$。
+    </div>
+    <div class="step">
+      <span class="step-label">4.</span> 猜想 $a_n = 2n-1$，验证：$S_n = \sum(2k-1) = n^2$，$4S_n = 4n^2$，$(a_n+1)^2 = (2n)^2 = 4n^2$。等式成立。
+    </div>
+    <div class="step" style="color:#6b7280;font-size:13px">
+      这种方法适合考试中快速验证答案是否正确。若需严格证明，可用数学归纳法补充。第 (2) 问的求和过程与解法一相同。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 三、知识点拆解 ==================== -->
+<div class="section" id="知识点">
+  <h2 class="section-title st-2">三、知识点拆解</h2>
+
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 递推数列 <span class="arrow">&gt;</span> $S_n$ 与 $a_n$ 的关系：$a_n = S_n - S_{n-1}$（$n \geqslant 2$）
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 等差数列 <span class="arrow">&gt;</span> 通项公式 $a_n = a_1 + (n-1)d$ 及判定
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 等差数列 <span class="arrow">&gt;</span> 前 $n$ 个奇数之和 $= n^2$
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 等比数列 <span class="arrow">&gt;</span> 前 $n$ 项和公式 $S = \dfrac{a_1(q^n - 1)}{q - 1}$
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 求和技巧 <span class="arrow">&gt;</span> 分组求和法（多项式 + 指数分开处理）
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">不等式</span>
+    不等式 <span class="arrow">&gt;</span> 条件约束 <span class="arrow">&gt;</span> "各项为正"排除不合理解
+  </div>
+</div>
+
+<!-- ==================== 四、思维方式 ==================== -->
+<div class="section" id="思维">
+  <h2 class="section-title st-3">四、思维方式</h2>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$4S_n = (a_n+1)^2$，写出相邻两式作差消去 $S_n$】</div>
+      <div class="thinking-why">$S_n$ 与 $a_n$ 混合出现时，作差是消去 $S_n$ 的标准操作</div>
+    </div>
+    <span class="thinking-method">递推思想</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$(a_n-1)^2 = (a_{n-1}+1)^2$ 开方后讨论正负号】</div>
+      <div class="thinking-why">平方相等不等于底数相等，必须考虑正负两种情况</div>
+    </div>
+    <span class="thinking-method">分类讨论</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【用"各项为正"排除 $a_n = -a_{n-1}$ 的分支】</div>
+      <div class="thinking-why">题目的隐含条件是筛选解的关键，不能忽视</div>
+    </div>
+    <span class="thinking-method">化归转化</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$n=1$ 时 $a_n = S_n - S_{n-1}$ 不适用，需单独代入原式求 $a_1$】</div>
+      <div class="thinking-why">$S_n$ 与 $a_n$ 关系中，$n=1$ 永远要单独验证是否一致</div>
+    </div>
+    <span class="thinking-method">分类讨论</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$b_n = (2n-1) + 2^{2n-1}$，拆成多项式和指数两组分别求和】</div>
+      <div class="thinking-why">不同类型的项无法统一公式求和，必须分组处理</div>
+    </div>
+    <span class="thinking-method">化归转化</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【识别 $2^1, 2^3, 2^5, \ldots, 2^{2n-1}$ 为公比 $q=4$ 的等比数列】</div>
+      <div class="thinking-why">指数的底数相同但指数成等差，等价于公比为 $2^d$ 的等比数列</div>
+    </div>
+    <span class="thinking-method">等价转换</span>
+  </div>
+</div>
+
+<!-- ==================== 五、易错点与陷阱 ==================== -->
+<div class="section" id="易错">
+  <h2 class="section-title st-4">五、易错点与陷阱</h2>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">忘记验证 $n=1$ 的情况，直接认为递推式 $a_n = a_{n-1} + 2$ 对所有 $n$ 成立</div>
+    <div class="pitfall-right">$a_n = S_n - S_{n-1}$ 只对 $n \geqslant 2$ 成立，$n=1$ 必须代入原式 $4a_1 = (a_1+1)^2$ 单独求解</div>
+    <div class="pitfall-why">如果 $n=1$ 算出的 $a_1$ 与递推式给出的不一致，通项公式需要分段表达</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">开方时漏掉负号分支，直接写 $a_n - 1 = a_{n-1} + 1$</div>
+    <div class="pitfall-right">$(a_n-1)^2 = (a_{n-1}+1)^2$ 应先写出 $a_n - 1 = \pm(a_{n-1}+1)$，再用"各项为正"排除负号</div>
+    <div class="pitfall-why">考试中不写讨论过程会被扣分。即使结果正确，推理过程不完整也会丢 1-2 分</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">等比数列公比算错：认为 $2^{2k-1}$ 的公比是 $2$</div>
+    <div class="pitfall-right">公比 $q = \dfrac{2^{2(k+1)-1}}{2^{2k-1}} = \dfrac{2^{2k+1}}{2^{2k-1}} = 2^2 = 4$</div>
+    <div class="pitfall-why">指数差是 $2$，所以公比是 $2^2 = 4$，不是底数 $2$。可以用相邻两项 $2^3 / 2^1 = 4$ 快速验证</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">$\sum(2k-1)$ 用错公式，写成 $\dfrac{n(2n-1)}{2}$</div>
+    <div class="pitfall-right">$\displaystyle\sum_{k=1}^{n}(2k-1) = 2 \cdot \frac{n(n+1)}{2} - n = n^2$，或直接记住"前 $n$ 个奇数之和等于 $n^2$"</div>
+    <div class="pitfall-why">这是一个高频结论，建议直接记忆：$1+3+5+\cdots+(2n-1) = n^2$</div>
+  </div>
+</div>
+
+<!-- ==================== 六、变式题方向 ==================== -->
+<div class="section" id="变式">
+  <h2 class="section-title st-5">六、变式题方向</h2>
+
+  <div class="variation">
+    <div class="variation-title">变式一：改变 $S_n$ 与 $a_n$ 的关系</div>
+    <div class="variation-desc">
+      若改为 $S_n = \dfrac{1}{4}(a_n^2 + 4n - 1)$，或 $2S_n = a_n \cdot a_{n+1}$，做法类似但递推式不同。<br>
+      核心区别：不同的 $S_n$-$a_n$ 关系可能导致等差、等比或更复杂的数列，需要灵活应对。
+    </div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式二：$b_n$ 改为需要错位相减的形式</div>
+    <div class="variation-desc">
+      若 $b_n = a_n \cdot 2^{a_n} = (2n-1) \cdot 2^{2n-1}$（乘积而非加和），则求和不能分组，需要用<strong>错位相减法</strong>。<br>
+      核心区别：多项式与指数的"加"可以分组，"乘"必须用错位相减。这是两种求和方法的典型分界。
+    </div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式三：去掉"各项为正"条件</div>
+    <div class="variation-desc">
+      若不限制各项为正，$(a_n-1)^2 = (a_{n-1}+1)^2$ 的两个分支都可能成立，通项公式可能是分段函数或交替数列。<br>
+      核心区别：条件的强弱直接影响解的唯一性，训练审题时对隐含条件的敏感度。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 七、难度定位 ==================== -->
+<div class="section" id="难度">
+  <h2 class="section-title st-6">七、难度定位</h2>
+  <div class="difficulty-box">
+    <div class="diff-row"><span class="diff-label">难度等级</span><span class="diff-value">中档</span></div>
+    <div class="diff-row"><span class="diff-label">考试定位</span><span class="diff-value">高考数列大题第(1)(2)问水平，12分制</span></div>
+    <div class="diff-row"><span class="diff-label">建议用时</span><span class="diff-value">10 - 12 分钟</span></div>
+    <div class="diff-row"><span class="diff-label">适合阶段</span><span class="diff-value">高二数列章节学完后的综合练习，覆盖递推 + 求和两大核心考点</span></div>
+    <div class="diff-row"><span class="diff-label">得分策略</span><span class="diff-value">第(1)问是基本功，6分必拿；第(2)问分组求和注意等比部分的公比和项数</span></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>题目 #004 — 数列前n项和最值与错位相减法</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif;
+  max-width:800px;margin:0 auto;padding:32px 24px;color:#1a1a1a;background:#fff;line-height:1.8;font-size:15px}
+
+.nav{font-size:12px;color:#9ca3af;margin-bottom:20px}
+.nav a{color:#2563eb;text-decoration:none}
+.nav a:hover{text-decoration:underline}
+
+.header{display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:14px;border-bottom:2px solid #1a1a1a;margin-bottom:24px}
+.problem-id{font-size:24px;font-weight:800;color:#2563eb}
+.header-right{display:flex;gap:12px;align-items:center;font-size:13px;color:#6b7280}
+.difficulty-badge{padding:2px 12px;border-radius:12px;font-weight:600;font-size:12px}
+.diff-1{background:#dcfce7;color:#166534}
+.diff-2{background:#fef3c7;color:#92400e}
+.diff-3{background:#fed7aa;color:#9a3412}
+.diff-4{background:#fecaca;color:#991b1b}
+
+.problem-statement{margin-bottom:28px;padding:16px 20px;background:#f9fafb;border-radius:8px;border:1px solid #e5e7eb;font-size:15px;line-height:2}
+
+.section{margin-bottom:36px}
+.section-title{font-size:17px;font-weight:700;padding:8px 0 8px 14px;margin-bottom:16px;background:#f9fafb}
+.st-1{border-left:4px solid #2563eb}
+.st-2{border-left:4px solid #7c3aed}
+.st-3{border-left:4px solid #0891b2}
+.st-4{border-left:4px solid #dc2626}
+.st-5{border-left:4px solid #ea580c}
+.st-6{border-left:4px solid #16a34a}
+.st-0{border-left:4px solid #d97706}
+.thought-flow{position:relative}
+.thought-step{position:relative;padding:10px 0 10px 28px;margin-bottom:4px;
+  border-left:2px solid #e5e7eb;margin-left:6px}
+.thought-step:last-child{border-left-color:transparent}
+.thought-step::before{content:'';position:absolute;left:-7px;top:15px;
+  width:12px;height:12px;border-radius:50%;border:2px solid #d97706;background:#fff}
+.thought-step.ts-insight::before{background:#d97706}
+.thought-label{font-size:13px;font-weight:700;margin-bottom:4px}
+.thought-text{font-size:14px;color:#374151;line-height:1.8}
+
+.method{margin-bottom:20px;padding:14px 16px;border:1px solid #e5e7eb;border-radius:6px}
+.method-title{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:10px}
+.method-tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:4px;
+  background:#eff6ff;color:#2563eb;margin-left:8px;font-weight:400}
+.step{margin-bottom:6px;padding-left:4px}
+
+.knowledge-item{padding:8px 12px;margin-bottom:6px;border-left:3px solid #e5e7eb;
+  margin-left:8px;font-size:14px;background:#fafafa;border-radius:0 4px 4px 0}
+.knowledge-item .module-tag{display:inline-block;font-size:11px;padding:1px 8px;
+  border-radius:10px;background:#f3f4f6;color:#6b7280;margin-right:6px}
+.knowledge-item .arrow{color:#9ca3af;margin:0 4px}
+
+.thinking-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+.thinking-step{flex:1;color:#374151}
+.thinking-method{flex-shrink:0;padding:2px 10px;border-radius:10px;font-size:12px;
+  font-weight:600;background:#f0f4ff;color:#2563eb;white-space:nowrap;align-self:flex-start}
+.thinking-why{font-size:12px;color:#6b7280;margin-top:2px}
+
+.pitfall{margin-bottom:14px;padding:12px 16px;border-radius:6px;border:1px solid #fecaca;background:#fef2f2}
+.pitfall-wrong{color:#dc2626;font-size:14px;margin-bottom:4px}
+.pitfall-wrong::before{content:'\274C '}
+.pitfall-right{color:#16a34a;font-size:14px;margin-bottom:4px}
+.pitfall-right::before{content:'\2705 '}
+.pitfall-why{font-size:13px;color:#6b7280;padding-left:20px}
+
+.variation{margin-bottom:12px;padding:12px 16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.variation-title{font-weight:600;font-size:14px;margin-bottom:4px;color:#ea580c}
+.variation-desc{font-size:13px;color:#374151}
+
+.difficulty-box{padding:16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.diff-row{display:flex;gap:24px;margin-bottom:6px;font-size:14px}
+.diff-label{color:#6b7280;min-width:80px}
+.diff-value{font-weight:600}
+
+.print-btn{position:fixed;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
+  border:1px solid #e5e7eb;background:#fff;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.print-btn:hover{background:#f3f4f6}
+
+@media print{
+  body{padding:16px;font-size:11pt}
+  .section{page-break-inside:avoid}
+  .print-btn,.nav{display:none}
+  .header{border-bottom-width:1px}
+}
+</style>
+</head>
+<body>
+<button class="print-btn no-print" onclick="window.print()" title="打印">&#128424;</button>
+<div class="nav"><a href="index.html">&larr; 返回索引</a></div>
+
+<div class="header">
+  <span class="problem-id"># 004</span>
+  <div class="header-right">
+    <span>2026-05-27</span>
+    <span>来源：作业</span>
+    <span class="difficulty-badge diff-2">中档</span>
+  </div>
+</div>
+
+<div class="problem-statement">
+  已知数列 $\{a_n\}$ 的前 $n$ 项和 $S_n = -\dfrac{1}{2}n^2 + kn$（其中 $k \in \mathbf{N}_+$），且 $S_n$ 的最大值为 $8$。<br>
+  （I）确定常数 $k$，并求 $a_n$；<br>
+  （II）求数列 $\left\{\dfrac{9-2a_n}{2^n}\right\}$ 的前 $n$ 项和 $T_n$。
+</div>
+
+<!-- 一、解题思路 -->
+<div class="section" id="思路">
+  <h2 class="section-title st-0">一、解题思路</h2>
+  <div class="thought-flow">
+    <div class="thought-step">
+      <div class="thought-label" style="color:#2563eb">审题 — 抓住两个关键信息</div>
+      <div class="thought-text">
+        $S_n = -\frac{1}{2}n^2 + kn$ 是关于 $n$ 的二次函数，开口朝下（$-\frac{1}{2} < 0$）。
+        题目说"$S_n$ 的最大值为 $8$"——二次函数求最值，自然想到配方或者顶点公式。
+        又因为 $k \in \mathbf{N}_+$，$k$ 是正整数，这会简化取最值的讨论。
+      </div>
+    </div>
+    <div class="thought-step">
+      <div class="thought-label" style="color:#f59e0b">联想 — $S_n$ 与 $a_n$ 的关系</div>
+      <div class="thought-text">
+        第 (I) 问求 $a_n$，标准套路：$a_n = S_n - S_{n-1}$（$n \geq 2$），再单独验证 $n=1$。
+        这里 $S_n$ 是二次式，差分后 $a_n$ 应该是一次式（等差数列的特征）。
+      </div>
+    </div>
+    <div class="thought-step ts-insight">
+      <div class="thought-label" style="color:#10b981">突破 — 第 (II) 问的化简是关键</div>
+      <div class="thought-text">
+        看到 $\frac{9-2a_n}{2^n}$，先别急着套公式。把 $a_n$ 代入化简，$9 - 2a_n = 9 - (9-2n) = 2n$，
+        于是通项变成 $\frac{2n}{2^n} = \frac{n}{2^{n-1}}$。这是"$n$ 乘以等比"的形式，错位相减法直接上。
+      </div>
+    </div>
+    <div class="thought-step">
+      <div class="thought-label" style="color:#6366f1">路径 — 两问的方法都很明确</div>
+      <div class="thought-text">
+        第 (I) 问：配方求 $k$ → 差分求 $a_n$。第 (II) 问：代入化简 → 错位相减法。
+        没有岔路，计算准确即可。
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 二、解题过程 -->
+<div class="section" id="解法">
+  <h2 class="section-title st-1">二、解题过程</h2>
+
+  <!-- 解法一 -->
+  <div class="method">
+    <div class="method-title">解法一 <span class="method-tag">通法 · 配方 + 错位相减</span></div>
+
+    <div class="step"><strong>第 (I) 问：求 $k$ 和 $a_n$</strong></div>
+
+    <div class="step" style="margin-top:8px"><strong>Step 1：对 $S_n$ 配方求最值</strong></div>
+    <div class="step">
+      $$S_n = -\frac{1}{2}n^2 + kn = -\frac{1}{2}(n^2 - 2kn) = -\frac{1}{2}(n - k)^2 + \frac{k^2}{2}$$
+    </div>
+    <div class="step">
+      由于 $-\frac{1}{2} < 0$，$S_n$ 作为 $n$ 的二次函数开口朝下，对称轴为 $n = k$。
+    </div>
+    <div class="step">
+      因为 $k \in \mathbf{N}_+$，当 $n = k$ 时，$S_n$ 取得最大值：
+      $$S_k = \frac{k^2}{2} = 8 \implies k^2 = 16 \implies k = 4$$
+      （$k \in \mathbf{N}_+$，故舍去 $k = -4$）
+    </div>
+
+    <div class="step" style="margin-top:12px"><strong>Step 2：求 $a_n$</strong></div>
+    <div class="step">
+      此时 $S_n = -\frac{1}{2}n^2 + 4n$。
+    </div>
+    <div class="step">
+      当 $n \geq 2$ 时：
+      $$a_n = S_n - S_{n-1} = \left(-\frac{n^2}{2} + 4n\right) - \left(-\frac{(n-1)^2}{2} + 4(n-1)\right)$$
+      $$= -\frac{n^2}{2} + 4n + \frac{(n-1)^2}{2} - 4(n-1)$$
+      $$= \frac{-(n^2) + (n-1)^2}{2} + 4 = \frac{-(2n-1)}{2} + 4 = \frac{9 - 2n}{2}$$
+    </div>
+    <div class="step">
+      当 $n = 1$ 时：$a_1 = S_1 = -\frac{1}{2} + 4 = \frac{7}{2}$，代入公式 $\frac{9-2}{2} = \frac{7}{2}$，一致。
+    </div>
+    <div class="step">
+      $$\boxed{k = 4, \quad a_n = \frac{9 - 2n}{2}}$$
+    </div>
+
+    <div class="step" style="margin-top:16px"><strong>第 (II) 问：求 $T_n$</strong></div>
+
+    <div class="step"><strong>Step 3：化简通项</strong></div>
+    <div class="step">
+      $$\frac{9 - 2a_n}{2^n} = \frac{9 - 2 \cdot \frac{9-2n}{2}}{2^n} = \frac{9 - (9 - 2n)}{2^n} = \frac{2n}{2^n} = \frac{n}{2^{n-1}}$$
+    </div>
+
+    <div class="step" style="margin-top:8px"><strong>Step 4：错位相减法</strong></div>
+    <div class="step">
+      设 $b_n = \frac{n}{2^{n-1}}$，则：
+      $$T_n = \frac{1}{1} + \frac{2}{2} + \frac{3}{4} + \frac{4}{8} + \cdots + \frac{n}{2^{n-1}}$$
+    </div>
+    <div class="step">
+      两边乘以 $\frac{1}{2}$：
+      $$\frac{1}{2}T_n = \frac{1}{2} + \frac{2}{4} + \frac{3}{8} + \cdots + \frac{n-1}{2^{n-1}} + \frac{n}{2^n}$$
+    </div>
+    <div class="step">
+      作差（$T_n - \frac{1}{2}T_n$）：
+      $$\frac{1}{2}T_n = \underbrace{1 + \frac{1}{2} + \frac{1}{4} + \cdots + \frac{1}{2^{n-1}}}_{\text{等比数列求和}} - \frac{n}{2^n}$$
+    </div>
+    <div class="step">
+      等比数列部分：首项 $1$，公比 $\frac{1}{2}$，共 $n$ 项：
+      $$1 + \frac{1}{2} + \cdots + \frac{1}{2^{n-1}} = \frac{1 - \left(\frac{1}{2}\right)^n}{1 - \frac{1}{2}} = 2\left(1 - \frac{1}{2^n}\right) = 2 - \frac{1}{2^{n-1}}$$
+    </div>
+    <div class="step">
+      代入：
+      $$\frac{1}{2}T_n = 2 - \frac{1}{2^{n-1}} - \frac{n}{2^n} = 2 - \frac{2}{2^n} - \frac{n}{2^n} = 2 - \frac{n+2}{2^n}$$
+    </div>
+    <div class="step">
+      $$\boxed{T_n = 4 - \frac{n+2}{2^{n-1}}}$$
+    </div>
+
+    <div class="step" style="margin-top:8px"><strong>验证：</strong></div>
+    <div class="step">
+      $n=1$：$T_1 = \frac{1}{1} = 1$，公式 $= 4 - \frac{3}{1} = 1$ ✓<br>
+      $n=2$：$T_2 = 1 + 1 = 2$，公式 $= 4 - \frac{4}{2} = 2$ ✓<br>
+      $n=3$：$T_3 = 1 + 1 + \frac{3}{4} = \frac{11}{4}$，公式 $= 4 - \frac{5}{4} = \frac{11}{4}$ ✓
+    </div>
+  </div>
+
+  <!-- 解法二 -->
+  <div class="method">
+    <div class="method-title">解法二 <span class="method-tag">$a_n$ 正负性判定最值</span></div>
+
+    <div class="step"><strong>第 (I) 问另解：</strong>用 $a_n$ 的正负性确定 $S_n$ 取最值的位置。</div>
+    <div class="step">
+      先一般性地求 $a_n$。当 $n \geq 2$：
+      $$a_n = S_n - S_{n-1} = \left(-\frac{n^2}{2}+kn\right)-\left(-\frac{(n-1)^2}{2}+k(n-1)\right) = k - n + \frac{1}{2} = \frac{2k-2n+1}{2}$$
+    </div>
+    <div class="step">
+      $S_n$ 取最大值的条件：$a_n \geq 0$ 且 $a_{n+1} \leq 0$，即项从正变负的转折点。
+    </div>
+    <div class="step">
+      $$a_n \geq 0 \iff 2k - 2n + 1 \geq 0 \iff n \leq k + \frac{1}{2}$$
+    </div>
+    <div class="step">
+      因为 $n$ 是正整数且 $k \in \mathbf{N}_+$，所以 $a_n \geq 0$ 当且仅当 $n \leq k$。<br>
+      从而 $S_n$ 在 $n = k$ 处取最大值：
+      $$S_k = -\frac{k^2}{2} + k^2 = \frac{k^2}{2} = 8 \implies k = 4$$
+    </div>
+    <div class="step">
+      此法的优点：从 $a_n$ 的正负性直观理解"为什么 $S_n$ 在 $n=k$ 处最大"——因为前 $k$ 项都是正的（在累加），第 $k+1$ 项起变负（开始拖后腿）。
+    </div>
+  </div>
+</div>
+
+<!-- 三、知识点拆解 -->
+<div class="section" id="知识点">
+  <h2 class="section-title st-2">三、知识点拆解</h2>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 递推关系 <span class="arrow">&gt;</span> $S_n$ 与 $a_n$ 的关系：$a_n = S_n - S_{n-1}$（$n \geq 2$）
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 等差数列 <span class="arrow">&gt;</span> $S_n$ 为二次函数时数列为等差数列
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 求和技巧 <span class="arrow">&gt;</span> 错位相减法（适用于"等差 $\times$ 等比"型通项）
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">函数</span>
+    函数 <span class="arrow">&gt;</span> 二次函数 <span class="arrow">&gt;</span> 配方法求最值 / 顶点坐标
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 等比数列 <span class="arrow">&gt;</span> 前 $n$ 项和公式 $\frac{a_1(1-q^n)}{1-q}$
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">数列</span>
+    数列 <span class="arrow">&gt;</span> 数列最值 <span class="arrow">&gt;</span> 通过 $a_n$ 正负性判断 $S_n$ 取最值的位置
+  </div>
+</div>
+
+<!-- 四、思维方式 -->
+<div class="section" id="思维">
+  <h2 class="section-title st-3">四、思维方式</h2>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【将 $S_n$ 视为 $n$ 的二次函数，配方求最值】</div>
+      <div class="thinking-why">$S_n$ 是关于整数变量 $n$ 的二次表达式，借用连续函数的最值方法</div>
+    </div>
+    <span class="thinking-method">函数与方程</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【用 $a_n = S_n - S_{n-1}$ 将前 $n$ 项和转化为通项】</div>
+      <div class="thinking-why">$S_n$ 与 $a_n$ 的差分关系是数列最基本的转化工具</div>
+    </div>
+    <span class="thinking-method">化归转化</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【先代入 $a_n$ 化简 $\frac{9-2a_n}{2^n}$ 再求和】</div>
+      <div class="thinking-why">不急于套公式，先化简通项可能大幅降低计算量</div>
+    </div>
+    <span class="thinking-method">整体思想</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【识别 $\frac{n}{2^{n-1}}$ 为"一次 $\times$ 等比"结构，使用错位相减法】</div>
+      <div class="thinking-why">$n$ 是等差因子，$\frac{1}{2^{n-1}}$ 是等比因子，乘以公比再作差消去等差部分</div>
+    </div>
+    <span class="thinking-method">递推思想</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【用 $a_n$ 正负性判断 $S_n$ 最大值位置】</div>
+      <div class="thinking-why">$S_n$ 递增 $\iff$ $a_n > 0$，当项变负时 $S_n$ 开始递减，直观建立"加正减负"模型</div>
+    </div>
+    <span class="thinking-method">数形结合</span>
+  </div>
+</div>
+
+<!-- 五、易错点与陷阱 -->
+<div class="section" id="易错">
+  <h2 class="section-title st-4">五、易错点与陷阱</h2>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">求 $a_n$ 时忘记单独验证 $n = 1$ 的情况</div>
+    <div class="pitfall-right">必须检查 $a_1 = S_1$ 是否与通项公式一致，不一致则需分段表示</div>
+    <div class="pitfall-why">$a_n = S_n - S_{n-1}$ 仅对 $n \geq 2$ 成立。本题恰好一致（$a_1 = \frac{7}{2}$ 符合公式），但这不是默认的。</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">错位相减法中，作差后忽略最后一项 $\frac{n}{2^n}$</div>
+    <div class="pitfall-right">$T_n - \frac{1}{2}T_n$ 的结果 = 等比数列部分 $-$ 尾项 $\frac{n}{2^n}$，两部分都不能漏</div>
+    <div class="pitfall-why">错位相减的核心：中间项两两相消变为等比数列，但首项和末项不配对，末项需单独处理。</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">$S_n$ 最值直接令导数为零，忘记 $n$ 必须取正整数</div>
+    <div class="pitfall-right">$n$ 是正整数，需在对称轴附近的整数点取最值；本题 $k \in \mathbf{N}_+$ 保证对称轴恰好是整数</div>
+    <div class="pitfall-why">若 $k$ 不是正整数（如 $k = 3.5$），最大值在 $n = 3$ 或 $n = 4$ 处取得，需要比较两个值。</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">化简 $9 - 2a_n$ 时符号出错，得到 $\frac{9 - 2n}{2^n}$ 等错误结果</div>
+    <div class="pitfall-right">$9 - 2 \cdot \frac{9-2n}{2} = 9 - (9-2n) = 2n$，注意整体代入后分配律的符号</div>
+    <div class="pitfall-why">$a_n = \frac{9-2n}{2}$，代入时 $2a_n = 9-2n$，$9 - 2a_n = 9 - 9 + 2n = 2n$。分步写清楚不容易错。</div>
+  </div>
+</div>
+
+<!-- 六、变式题方向 -->
+<div class="section" id="变式">
+  <h2 class="section-title st-5">六、变式题方向</h2>
+
+  <div class="variation">
+    <div class="variation-title">变式一：$k$ 不是正整数</div>
+    <div class="variation-desc">
+      若去掉 $k \in \mathbf{N}_+$ 的条件，改为 $k > 0$，则 $S_n$ 的最大值取在 $n = \lfloor k + \frac{1}{2} \rfloor$ 处，
+      需要讨论 $k$ 的范围（如 $3 < k < 4$ 时，比较 $S_3$ 和 $S_4$）。这是一道更复杂的分类讨论题。
+    </div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式二：改变求和结构</div>
+    <div class="variation-desc">
+      将第 (II) 问改为求 $\sum_{i=1}^n \frac{a_n}{2^n}$ 或 $\sum_{i=1}^n n \cdot 3^n$，
+      本质不变（仍是错位相减法），但公比不同，考察计算能力。若改为 $\sum \frac{a_n}{n}$，则不再适用错位相减，需要裂项或其他方法。
+    </div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式三：$S_n$ 最值条件换为不等式</div>
+    <div class="variation-desc">
+      例如"$S_n \leq 8$ 对所有 $n$ 成立，求 $k$ 的范围"。此时 $\frac{k^2}{2} \leq 8$ 给出 $0 < k \leq 4$（$k \in \mathbf{N}_+$），
+      即 $k \in \{1, 2, 3, 4\}$。这类变式把等式条件放宽为不等式，增加了讨论维度。
+    </div>
+  </div>
+</div>
+
+<!-- 七、难度定位 -->
+<div class="section" id="难度">
+  <h2 class="section-title st-6">七、难度定位</h2>
+  <div class="difficulty-box">
+    <div class="diff-row"><span class="diff-label">难度等级</span><span class="diff-value">中档 (2)</span></div>
+    <div class="diff-row"><span class="diff-label">考试定位</span><span class="diff-value">高考解答题第一道（17题水平），模考常见题型</span></div>
+    <div class="diff-row"><span class="diff-label">建议用时</span><span class="diff-value">10-12 分钟</span></div>
+    <div class="diff-row"><span class="diff-label">适合阶段</span><span class="diff-value">一轮复习数列综合、错位相减法专练</span></div>
+    <div class="diff-row"><span class="diff-label">核心技能</span><span class="diff-value">$S_n$ 与 $a_n$ 的关系 + 错位相减法，两个核心考点的标准组合</span></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false},
+      {left:'\\(',right:'\\)',display:false},
+      {left:'\\[',right:'\\]',display:true}
+    ],
+    throwOnError:false
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>题目 #001 — 双曲线离心率与方程</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif;
+  max-width:800px;margin:0 auto;padding:32px 24px;color:#1a1a1a;background:#fff;line-height:1.8;font-size:15px}
+.nav{font-size:12px;color:#9ca3af;margin-bottom:20px}
+.nav a{color:#2563eb;text-decoration:none}
+.nav a:hover{text-decoration:underline}
+.header{display:flex;align-items:center;justify-content:space-between;
+  padding-bottom:14px;border-bottom:2px solid #1a1a1a;margin-bottom:24px}
+.problem-id{font-size:24px;font-weight:800;color:#2563eb}
+.header-right{display:flex;gap:12px;align-items:center;font-size:13px;color:#6b7280}
+.difficulty-badge{padding:2px 12px;border-radius:12px;font-weight:600;font-size:12px}
+.diff-1{background:#dcfce7;color:#166534}
+.diff-2{background:#fef3c7;color:#92400e}
+.diff-3{background:#fed7aa;color:#9a3412}
+.diff-4{background:#fecaca;color:#991b1b}
+.problem-image-section{margin-bottom:28px;text-align:center}
+.problem-image{max-width:100%;max-height:500px;border:1px solid #e5e7eb;border-radius:4px}
+.section{margin-bottom:36px}
+.section-title{font-size:17px;font-weight:700;padding:8px 0 8px 14px;margin-bottom:16px;background:#f9fafb}
+.st-1{border-left:4px solid #2563eb}
+.st-2{border-left:4px solid #7c3aed}
+.st-3{border-left:4px solid #0891b2}
+.st-4{border-left:4px solid #dc2626}
+.st-5{border-left:4px solid #ea580c}
+.st-6{border-left:4px solid #16a34a}
+.st-0{border-left:4px solid #d97706}
+.thought-flow{position:relative}
+.thought-step{position:relative;padding:10px 0 10px 28px;margin-bottom:4px;
+  border-left:2px solid #e5e7eb;margin-left:6px}
+.thought-step:last-child{border-left-color:transparent}
+.thought-step::before{content:'';position:absolute;left:-7px;top:15px;
+  width:12px;height:12px;border-radius:50%;border:2px solid #d97706;background:#fff}
+.thought-step.ts-insight::before{background:#d97706}
+.thought-label{font-size:13px;font-weight:700;margin-bottom:4px}
+.thought-text{font-size:14px;color:#374151;line-height:1.8}
+.method{margin-bottom:20px;padding:14px 16px;border:1px solid #e5e7eb;border-radius:6px}
+.method-title{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:10px}
+.method-tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:4px;
+  background:#eff6ff;color:#2563eb;margin-left:8px;font-weight:400}
+.step{margin-bottom:8px;padding-left:4px}
+.step-label{font-weight:600;color:#374151}
+.knowledge-item{padding:8px 12px;margin-bottom:6px;border-left:3px solid #e5e7eb;
+  margin-left:8px;font-size:14px;background:#fafafa;border-radius:0 4px 4px 0}
+.knowledge-item .module-tag{display:inline-block;font-size:11px;padding:1px 8px;
+  border-radius:10px;background:#f3f4f6;color:#6b7280;margin-right:6px}
+.knowledge-item .arrow{color:#9ca3af;margin:0 4px}
+.thinking-item{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f3f4f6;font-size:14px}
+.thinking-step{flex:1;color:#374151}
+.thinking-method{flex-shrink:0;padding:2px 10px;border-radius:10px;font-size:12px;
+  font-weight:600;background:#f0f4ff;color:#2563eb;white-space:nowrap;align-self:flex-start}
+.thinking-why{font-size:12px;color:#6b7280;margin-top:2px}
+.pitfall{margin-bottom:14px;padding:12px 16px;border-radius:6px;border:1px solid #fecaca;background:#fef2f2}
+.pitfall-wrong{color:#dc2626;font-size:14px;margin-bottom:4px}
+.pitfall-wrong::before{content:'&#10060; '}
+.pitfall-right{color:#16a34a;font-size:14px;margin-bottom:4px}
+.pitfall-right::before{content:'&#9989; '}
+.pitfall-why{font-size:13px;color:#6b7280;padding-left:20px}
+.variation{margin-bottom:12px;padding:12px 16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.variation-title{font-weight:600;font-size:14px;margin-bottom:4px;color:#ea580c}
+.variation-desc{font-size:13px;color:#374151}
+.difficulty-box{padding:16px;border:1px solid #e5e7eb;border-radius:6px;background:#f9fafb}
+.diff-row{display:flex;gap:24px;margin-bottom:6px;font-size:14px}
+.diff-label{color:#6b7280;min-width:80px}
+.diff-value{font-weight:600}
+.print-btn{position:fixed;top:16px;right:16px;width:36px;height:36px;border-radius:50%;
+  border:1px solid #e5e7eb;background:#fff;font-size:16px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.print-btn:hover{background:#f3f4f6}
+.sub-title{font-size:14px;font-weight:600;color:#374151;margin:16px 0 8px;padding-left:4px}
+@media print{
+  body{padding:16px;font-size:11pt}
+  .section{page-break-inside:avoid}
+  .print-btn,.nav{display:none}
+  .problem-image{max-height:300px}
+  .header{border-bottom-width:1px}
+}
+</style>
+</head>
+<body>
+<button class="print-btn" onclick="window.print()" title="打印">&#128424;</button>
+<div class="nav"><a href="index.html">&larr; 返回索引</a></div>
+
+<div class="header">
+  <span class="problem-id"># 001</span>
+  <div class="header-right">
+    <span>2026-05-27</span>
+    <span>来源：解析几何100题精选</span>
+    <span class="difficulty-badge diff-3">中高档</span>
+  </div>
+</div>
+
+<div class="problem-image-section">
+  <img src="images/problem_001.jpg" alt="题目" class="problem-image" onerror="this.parentElement.style.display='none'">
+</div>
+
+<!-- ==================== 一、解题思路 ==================== -->
+<div class="section" id="思路">
+  <h2 class="section-title st-0">一、解题思路</h2>
+  <div class="thought-flow">
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#2563eb">审题 — 信息量大，需要找主线</div>
+      <div class="thought-text">
+        题面给了一堆东西：双曲线、右焦点 $F$、左准线上的点 $M$、向量条件 $\vec{MP}=\vec{OF}$、$P$ 在双曲线上、$|PF|=\lambda|OF|$。信息密度很高，不能随便设坐标就开始算。先想清楚：最终要求的是 $e$ 和 $\lambda$ 的关系，所以一切都要往 $e = c/a$ 上靠。
+      </div>
+    </div>
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#f59e0b">第一想法 — 坐标硬算？</div>
+      <div class="thought-text">
+        最直接的思路：$M$ 在左准线上，$x_M = -a^2/c$（$y_M$ 未知）；向量条件给出 $P = (x_M + c,\; y_M) = (b^2/c,\; y_M)$。$x_P$ 算出来了，但 $y_M$ 怎么办？它必须让 $P$ 满足双曲线方程，代入后会不会很复杂？我没有马上走这条路，而是想：有没有不需要 $y_M$ 的方法？
+      </div>
+    </div>
+
+    <div class="thought-step ts-insight">
+      <div class="thought-label" style="color:#10b981">关键洞察 — 向量相等 = 平行四边形</div>
+      <div class="thought-text">
+        $\vec{MP} = \vec{OF}$ 本质上是说"从 $M$ 到 $P$ 的位移"和"从 $O$ 到 $F$ 的位移"完全一样。两个向量相等意味着平行且等长，所以 $OFPM$ 构成平行四边形，直接得到 $|PM| = |OF| = c$，完全绕过了 $y_M$。<strong>这一步是全题关键：看到向量相等，先想几何意义，别急着拆坐标。</strong>
+      </div>
+    </div>
+
+    <div class="thought-step">
+      <div class="thought-label" style="color:#f59e0b">选择路径 — 怎么引入离心率</div>
+      <div class="thought-text">
+        现在有 $|PM| = c$ 和 $|PF| = \lambda c$，需要把 $e$ 拉进来。想到两条路：<br>
+        路径A：焦准性质 $|PF|/d = e$（$d$ 是到对应准线的距离），$M$ 就在准线上，距离好算。<br>
+        路径B：焦半径公式 $|PF| = ex_P - a$，代入 $x_P = b^2/c$。<br>
+        路径B更短，但路径A几何画面更完整。考试中优先选短路。
+      </div>
+    </div>
+
+    <div class="thought-step ts-insight">
+      <div class="thought-label" style="color:#10b981">第(II)问 — 向量比例的处理套路</div>
+      <div class="thought-text">
+        $\vec{DA} = (\sqrt{3}-2)\vec{DB}$ 这种条件，初学者容易直接写坐标然后硬算。更聪明的做法：<strong>分量拆开</strong>。$D(0, a)$ 在 $y$ 轴上，$x$ 分量直接给出 $x_1 = (\sqrt{3}-2)x_2$。配合韦达定理的 $x_1 + x_2$ 和 $x_1 x_2$，两式相除消掉 $x_2$，只剩 $a^2$。这是解析几何大题的常见链条：<strong>向量 → 坐标分量 → 韦达 → 消元</strong>。
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ==================== 二、解题过程 ==================== -->
+<div class="section" id="解法">
+  <h2 class="section-title st-1">二、解题过程</h2>
+
+  <div class="method">
+    <div class="method-title">解法一：焦点准线性质法 <span class="method-tag">通法</span></div>
+
+    <div class="sub-title">第 (I) 问：推导 $e$ 与 $\lambda$ 的关系</div>
+
+    <div class="step">
+      <span class="step-label">1.</span> 由 $\vec{MP} = \vec{OF}$，知四边形 $OFPM$ 为平行四边形，故 $|PM| = |OF| = c$。
+    </div>
+    <div class="step">
+      <span class="step-label">2.</span> 设右准线 $l: x = \dfrac{a^2}{c}$，$PM$（水平方向）交右准线于点 $N$。
+    </div>
+    <div class="step">
+      <span class="step-label">3.</span> $M$ 在左准线 $x = -\dfrac{a^2}{c}$ 上，$N$ 在右准线上，两准线之间的距离为
+      $$|MN| = \frac{a^2}{c} - \left(-\frac{a^2}{c}\right) = \frac{2a^2}{c}$$
+    </div>
+    <div class="step">
+      <span class="step-label">4.</span> 因此 $P$ 到右准线的距离
+      $$|PN| = |PM| - |MN| = c - \frac{2a^2}{c} = \frac{c^2 - 2a^2}{c}$$
+    </div>
+    <div class="step">
+      <span class="step-label">5.</span> 由双曲线焦点准线性质（第二定义）：$|PF| = e \cdot |PN|$，又 $|PF| = \lambda|OF| = \lambda c$，所以
+      $$\lambda c = e \cdot \frac{c^2 - 2a^2}{c}$$
+    </div>
+    <div class="step">
+      <span class="step-label">6.</span> 两边乘以 $c$，再代入 $c = ae$：
+      $$\lambda c^2 = e(c^2 - 2a^2) \implies \lambda a^2 e^2 = e \cdot a^2(e^2 - 2)$$
+      约去 $a^2 e$，得
+      $$\boxed{e^2 - \lambda e - 2 = 0}$$
+    </div>
+
+    <div class="sub-title">第 (II) 问：$\lambda = 1$ 时求双曲线方程</div>
+
+    <div class="step">
+      <span class="step-label">7.</span> 代入 $\lambda = 1$：$e^2 - e - 2 = 0$，即 $(e-2)(e+1) = 0$，解得 $e = 2$。
+    </div>
+    <div class="step">
+      <span class="step-label">8.</span> 由 $e = 2$ 得 $c = 2a$，$b^2 = c^2 - a^2 = 3a^2$。双曲线方程为
+      $$\frac{x^2}{a^2} - \frac{y^2}{3a^2} = 1$$
+    </div>
+    <div class="step">
+      <span class="step-label">9.</span> 设直线 $AB$：$y = -a(x - 1)$，代入双曲线方程：
+      $$\frac{x^2}{a^2} - \frac{a^2(x-1)^2}{3a^2} = 1 \implies 3x^2 - a^2(x-1)^2 = 3a^2$$
+      整理得
+      $$(3 - a^2)x^2 + 2a^2 x - 4a^2 = 0 \quad \cdots (*)$$
+    </div>
+    <div class="step">
+      <span class="step-label">10.</span> 判别式 $\Delta = 4a^4 + 16a^2(3 - a^2) = 12a^2(4 - a^2) > 0$，需 $0 &lt; a &lt; 2$，且 $a^2 \neq 3$。
+    </div>
+    <div class="step">
+      <span class="step-label">11.</span> 由韦达定理：
+      $$x_1 + x_2 = \frac{2a^2}{a^2 - 3}, \quad x_1 x_2 = \frac{4a^2}{a^2 - 3} \quad \cdots \textcircled{1}$$
+    </div>
+    <div class="step">
+      <span class="step-label">12.</span> 直线与 $y$ 轴交点 $D(0, a)$。由 $\vec{DA} = (\sqrt{3} - 2)\vec{DB}$，比较 $x$ 分量得
+      $$x_1 = (\sqrt{3} - 2)x_2 \quad \cdots \textcircled{2}$$
+    </div>
+    <div class="step">
+      <span class="step-label">13.</span> 由 $\textcircled{1}\textcircled{2}$ 联立：
+      $$(\sqrt{3} - 1)x_2 = \frac{2a^2}{a^2 - 3}, \quad (\sqrt{3} - 2)x_2^2 = \frac{4a^2}{a^2 - 3}$$
+      两式相除：
+      $$\frac{(\sqrt{3}-2)x_2}{\sqrt{3}-1} = 2 \implies x_2 = \frac{2(\sqrt{3}-1)}{\sqrt{3}-2}$$
+      回代第一式，化简得 $\dfrac{(4 - 2\sqrt{3})}{\sqrt{3}-2} = \dfrac{a^2}{a^2 - 3}$，其中
+      $$\frac{4 - 2\sqrt{3}}{\sqrt{3} - 2} = \frac{-2(\sqrt{3}-2)}{\sqrt{3}-2} = -2$$
+      故 $-2 = \dfrac{a^2}{a^2 - 3}$，解得 $a^2 = 2$（满足 $0 &lt; a &lt; 2$ 且 $a^2 \neq 3$）。
+    </div>
+    <div class="step">
+      <span class="step-label">14.</span> 因此双曲线方程为
+      $$\boxed{\frac{x^2}{2} - \frac{y^2}{6} = 1}$$
+    </div>
+  </div>
+
+  <div class="method">
+    <div class="method-title">解法二：焦半径公式法 <span class="method-tag">更简洁</span></div>
+
+    <div class="sub-title">第 (I) 问的另一种推导</div>
+
+    <div class="step">
+      <span class="step-label">1.</span> 由 $\vec{MP} = \vec{OF}$，设 $M(-\frac{a^2}{c},\, y_M)$ 在左准线上，则
+      $$P = M + \vec{OF} = \left(-\frac{a^2}{c} + c,\; y_M\right) = \left(\frac{b^2}{c},\; y_M\right)$$
+    </div>
+    <div class="step">
+      <span class="step-label">2.</span> 直接利用<strong>焦半径公式</strong>（$P$ 在右支上，到右焦点的距离）：
+      $$|PF| = ex_P - a = e \cdot \frac{b^2}{c} - a = \frac{eb^2 - ac}{c}$$
+    </div>
+    <div class="step">
+      <span class="step-label">3.</span> 代入 $b^2 = c^2 - a^2$ 和 $c = ae$：
+      $$|PF| = \frac{e(c^2 - a^2) - ac}{c} = \frac{a^2 e(e^2 - 1) - a^2 e}{ae} = a(e^2 - 2)$$
+    </div>
+    <div class="step">
+      <span class="step-label">4.</span> 又 $|PF| = \lambda c = \lambda ae$，所以
+      $$a(e^2 - 2) = \lambda ae \implies e^2 - \lambda e - 2 = 0$$
+    </div>
+    <div class="step" style="color:#6b7280;font-size:13px">
+      与解法一相比，这种方法跳过了准线距离的几何分析，直接通过焦半径公式代入坐标计算，步骤更少。第 (II) 问的后续计算相同。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 三、知识点拆解 ==================== -->
+<div class="section" id="知识点">
+  <h2 class="section-title st-2">三、知识点拆解</h2>
+
+  <div class="knowledge-item">
+    <span class="module-tag">解析几何</span>
+    解析几何 <span class="arrow">&gt;</span> 双曲线 <span class="arrow">&gt;</span> 焦点准线关系（第二定义）：$\dfrac{|PF|}{d} = e$
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">解析几何</span>
+    解析几何 <span class="arrow">&gt;</span> 双曲线 <span class="arrow">&gt;</span> 焦半径公式：右支上 $|PF_2| = ex_0 - a$
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">解析几何</span>
+    解析几何 <span class="arrow">&gt;</span> 双曲线 <span class="arrow">&gt;</span> 准线方程 $x = \pm\dfrac{a^2}{c}$ 及离心率 $e = \dfrac{c}{a}$
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">解析几何</span>
+    解析几何 <span class="arrow">&gt;</span> 直线与圆锥曲线 <span class="arrow">&gt;</span> 联立方程组 + 韦达定理
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">解析几何</span>
+    解析几何 <span class="arrow">&gt;</span> 直线与圆锥曲线 <span class="arrow">&gt;</span> 判别式 $\Delta > 0$ 的验证
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">向量</span>
+    向量 <span class="arrow">&gt;</span> 向量相等 <span class="arrow">&gt;</span> $\vec{MP} = \vec{OF}$ 推出平行四边形
+  </div>
+  <div class="knowledge-item">
+    <span class="module-tag">向量</span>
+    向量 <span class="arrow">&gt;</span> 数乘与共线 <span class="arrow">&gt;</span> $\vec{DA} = k\vec{DB}$ 转化为坐标比例关系
+  </div>
+</div>
+
+<!-- ==================== 四、思维方式 ==================== -->
+<div class="section" id="思维">
+  <h2 class="section-title st-3">四、思维方式</h2>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【看到 $\vec{MP} = \vec{OF}$】构造出平行四边形 $OFPM$，确定 $|PM| = c$</div>
+      <div class="thinking-why">向量相等 = 平行 + 等长，立即联想几何图形，将抽象条件具象化</div>
+    </div>
+    <span class="thinking-method">数形结合</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【需要联系 $|PF|$ 与 $e$】想到焦点准线性质 $|PF| = e \cdot d$，将距离问题转入焦准关系</div>
+      <div class="thinking-why">不直接算坐标，而是利用双曲线的定义性质来建立等式，减少计算量</div>
+    </div>
+    <span class="thinking-method">化归转化</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【计算 $|PN|$】将 $|PN|$ 拆为 $|PM| - |MN|$，而非算 $P$ 的具体坐标</div>
+      <div class="thinking-why">利用平行四边形中已知的线段关系做拆分，避免引入多余的未知量</div>
+    </div>
+    <span class="thinking-method">整体思想</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【解法二中直接求出 $P$ 坐标 $(\frac{b^2}{c}, y_M)$，代入焦半径公式】</div>
+      <div class="thinking-why">已知向量关系直接给出了 $P$ 的横坐标，焦半径只依赖横坐标，不需要 $y$</div>
+    </div>
+    <span class="thinking-method">设而不求</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【联立直线与双曲线后，用韦达定理表达 $x_1 + x_2$ 和 $x_1 x_2$】</div>
+      <div class="thinking-why">圆锥曲线大题的核心套路：不解方程求根，用根与系数的关系处理后续条件</div>
+    </div>
+    <span class="thinking-method">整体思想</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【$\vec{DA} = (\sqrt{3}-2)\vec{DB}$ 转化为 $x_1 = (\sqrt{3}-2)x_2$】</div>
+      <div class="thinking-why">向量等式的每个分量独立成立；$D$ 在 $y$ 轴上所以 $x$ 分量直接是 $x_1, x_2$</div>
+    </div>
+    <span class="thinking-method">等价转换</span>
+  </div>
+
+  <div class="thinking-item">
+    <div>
+      <div class="thinking-step">【两个韦达等式除以消去 $x_2$，再回代求 $a^2$】</div>
+      <div class="thinking-why">两个方程两个未知量 $(x_2, a^2)$，通过除法消去 $x_2$，只留 $a^2$</div>
+    </div>
+    <span class="thinking-method">消元法</span>
+  </div>
+</div>
+
+<!-- ==================== 五、易错点与陷阱 ==================== -->
+<div class="section" id="易错">
+  <h2 class="section-title st-4">五、易错点与陷阱</h2>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">准线公式写成 $x = \pm\dfrac{c}{a}$ 或 $x = \pm\dfrac{a}{e}$（和椭圆搞混）</div>
+    <div class="pitfall-right">双曲线和椭圆的准线都是 $x = \pm\dfrac{a^2}{c} = \pm\dfrac{a}{e}$，不要记成 $\dfrac{c}{a}$</div>
+    <div class="pitfall-why">记忆口诀：准线在焦点和中心之间（对双曲线和椭圆都成立），所以 $\frac{a^2}{c} &lt; c$</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">韦达定理中忘记除以二次项系数，直接写 $x_1 + x_2 = 2a^2$</div>
+    <div class="pitfall-right">方程 $(3-a^2)x^2 + 2a^2 x - 4a^2 = 0$ 的韦达定理需要除以 $(3 - a^2)$</div>
+    <div class="pitfall-why">只有 $x^2 + bx + c = 0$ 才能直接用 $x_1+x_2 = -b$；一般形式要先除以首项系数</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">漏掉 $\Delta > 0$ 和 $3 - a^2 \neq 0$ 的检验，直接给出 $a^2 = 2$</div>
+    <div class="pitfall-right">必须验证 $a^2 = 2$ 满足 $\Delta = 12 \times 2 \times (4-2) = 48 > 0$ 且 $3 - 2 = 1 \neq 0$</div>
+    <div class="pitfall-why">不验证可能得到无意义的解。考试中这一步通常占1-2分</div>
+  </div>
+
+  <div class="pitfall">
+    <div class="pitfall-wrong">$\vec{DA}$ 的方向写反：误认为 $\vec{DA} = D - A$</div>
+    <div class="pitfall-right">$\vec{DA} = A - D$（从 $D$ 指向 $A$），所以 $x$ 分量为 $x_1 - 0 = x_1$</div>
+    <div class="pitfall-why">向量 $\vec{AB}$ 的定义是"终点减起点"，即 $B - A$。$\vec{DA}$ 的终点是 $A$</div>
+  </div>
+</div>
+
+<!-- ==================== 六、变式题方向 ==================== -->
+<div class="section" id="变式">
+  <h2 class="section-title st-5">六、变式题方向</h2>
+
+  <div class="variation">
+    <div class="variation-title">变式一：改变 $\lambda$ 的值</div>
+    <div class="variation-desc">
+      若 $\lambda = 2$，则 $e^2 - 2e - 2 = 0$，$e = 1 + \sqrt{3}$。此时 $b^2/a^2 = e^2 - 1 = 2 + 2\sqrt{3}$，方程结构完全不同。<br>
+      核心区别：$\lambda$ 变化直接改变离心率，进而改变双曲线开口大小。训练对 $e$ 与图形形态关系的理解。
+    </div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式二：向量条件改为模的比值</div>
+    <div class="variation-desc">
+      若将 $\vec{DA} = (\sqrt{3}-2)\vec{DB}$ 改为 $|\vec{DA}| = (2-\sqrt{3})|\vec{DB}|$（注意取绝对值），则 $A$、$B$ 相对于 $D$ 的位置有两种可能（同侧/异侧），需要分类讨论。<br>
+      核心区别：向量等式包含方向信息，标量比值丢失方向，增加分类讨论。
+    </div>
+  </div>
+
+  <div class="variation">
+    <div class="variation-title">变式三：换成椭圆</div>
+    <div class="variation-desc">
+      若将双曲线改为椭圆 $\dfrac{x^2}{a^2} + \dfrac{y^2}{b^2} = 1$，焦准关系变为 $|PF| = e \cdot d$（$e &lt; 1$），则第 (I) 问的推导逻辑不变但 $e$ 的取值范围不同。<br>
+      核心区别：椭圆 $e &lt; 1$，方程 $e^2 - \lambda e - 2 = 0$ 可能无正数解小于1，需要讨论 $\lambda$ 的范围。
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 七、难度定位 ==================== -->
+<div class="section" id="难度">
+  <h2 class="section-title st-6">七、难度定位</h2>
+  <div class="difficulty-box">
+    <div class="diff-row"><span class="diff-label">难度等级</span><span class="diff-value">中高档</span></div>
+    <div class="diff-row"><span class="diff-label">考试定位</span><span class="diff-value">高考解析几何大题（全国卷倒数第二题水平），14分制</span></div>
+    <div class="diff-row"><span class="diff-label">建议用时</span><span class="diff-value">15 - 20 分钟</span></div>
+    <div class="diff-row"><span class="diff-label">适合阶段</span><span class="diff-value">高三一轮复习及专题提高，需熟练掌握韦达定理和圆锥曲线第二定义</span></div>
+    <div class="diff-row"><span class="diff-label">得分策略</span><span class="diff-value">第 (I) 问 6 分相对容易拿满，第 (II) 问计算量大，注意不要在化简上卡住</span></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded",function(){
+  renderMathInElement(document.body,{
+    delimiters:[
+      {left:'$$',right:'$$',display:true},
+      {left:'$',right:'$',display:false}
+    ],
+    throwOnError:false
+  });
+});
+</script>
+</body>
+</html>

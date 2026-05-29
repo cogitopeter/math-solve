@@ -132,18 +132,18 @@
 
 ## 安装
 
-1. 将 `math-solve.md` 复制到 `~/.claude/commands/` 目录
-2. 在 Claude Code 中输入 `/math-solve` 并附上题目图片即可
+1. 将 `gzshuxue.md` 复制到 `~/.claude/commands/` 目录
+2. 在 Claude Code 中输入 `/gzshuxue` 并附上题目图片即可
 
-首次使用时会自动在 `~/Desktop/shuxue/` 创建工作目录和索引文件。
+首次使用时会自动在 `~/Desktop/gzshuxue/` 创建工作目录和索引文件。
 
 ## 使用方式
 
 ```
-/math-solve [附上题目照片]
+/gzshuxue [附上题目照片]
 ```
 
-或发送题目文字后输入 `/math-solve`。
+或发送题目文字后输入 `/gzshuxue`。
 
 触发词：`做这道题`、`分析这道题`、`这题怎么做`
 
@@ -158,7 +158,7 @@
 ## 文件结构
 
 ```
-~/Desktop/shuxue/
+~/Desktop/gzshuxue/
 ├── index.html              # 学习诊断仪表盘
 ├── problem_001.html        # 题目分析页
 ├── problem_002.html
